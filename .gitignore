@@ -20,3 +20,8 @@ coverage/
 postgres-data/
 redis-data/
 minio-data/
+
+# Python build artifacts
+build/
+*.egg-info/
+*.db
