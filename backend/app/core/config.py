@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     openai_api_key: str | None = None
     openai_base_url: str = "https://api.openai.com/v1"
     openai_model: str = "gpt-4o-mini"
+    web_research_enabled: bool = True
+    research_provider: Literal["auto", "tavily", "public", "none"] = "auto"
+    tavily_api_key: str | None = None
+    research_max_results: int = Field(default=5, ge=1, le=10)
     min_micro_tasks: int = Field(default=10, ge=1, le=150)
     max_micro_tasks: int = Field(default=150, ge=10, le=150)
 

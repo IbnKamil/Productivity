@@ -53,6 +53,8 @@ Goal decomposition supports two modes:
 
 AI settings are OpenAI-compatible: `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`. The generator is allowed to create from `MIN_MICRO_TASKS` to `MAX_MICRO_TASKS` steps, with `MAX_MICRO_TASKS` capped at 150.
 
+Before AI generation, the backend can collect research context. Configure `WEB_RESEARCH_ENABLED=true` and optionally `TAVILY_API_KEY` for real web search. Without Tavily, the public fallback uses no-auth sources such as OpenLibrary and Russian Wikipedia where available. This is important for goals like reading a specific book: the decomposer can use discovered metadata/topics and then create reading, comprehension, and note-taking micro-tasks instead of generic steps.
+
 ## Product invariant
 
 The main screen calls `GET /tasks/current` and renders a single current micro-task. There is no frontend route that exposes the full future micro-task list, preserving the tunnel-effect UX.

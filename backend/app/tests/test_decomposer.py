@@ -26,3 +26,31 @@ def test_decomposer_scales_for_large_goal_description():
     )
 
     assert 50 <= len(tasks) <= 150
+
+
+def test_book_goal_gets_reading_specific_micro_tasks():
+    tasks = TaskDecomposer().decompose(
+        'Прочитать книгу "Как учится машина"',
+        'Хочу понять главные идеи книги и не бросить чтение.',
+        complexity=3,
+        context='Нужно читать маленькими шагами и проверять понимание',
+    )
+
+    titles = [task.title for task in tasks[:12]]
+    descriptions = [task.description for task in tasks[:12]]
+    assert any('Открыть книгу' in title for title in titles)
+    assert any('оглавление' in title.lower() or 'оглавлению' in description.lower() for title, description in zip(titles, descriptions))
+    assert any('Прочитать абзац 1' in title for title in titles)
+    assert any('Понять смысл абзаца 1' in title for title in titles)
+
+
+def test_goal_classifier_uses_domain_specific_sport_steps():
+    tasks = TaskDecomposer().decompose(
+        'Сформировать спортивную привычку',
+        'Хочу начать делать лёгкую тренировку утром.',
+        complexity=2,
+        context='Низкая энергия',
+    )
+
+    assert any('размин' in task.title.lower() or 'размин' in task.description.lower() for task in tasks[:8])
+    assert any('самочувствие' in task.title.lower() for task in tasks[:12])

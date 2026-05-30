@@ -4,6 +4,7 @@ os.environ["DATABASE_URL"] = "sqlite:///./test.db"
 os.environ["REDIS_URL"] = ""
 os.environ["JWT_SECRET"] = "test-secret-that-is-long-enough-32-bytes"
 os.environ["RATE_LIMIT_ENABLED"] = "false"
+os.environ["WEB_RESEARCH_ENABLED"] = "false"
 
 import pytest
 from fastapi.testclient import TestClient
