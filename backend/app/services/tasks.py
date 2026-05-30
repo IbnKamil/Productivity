@@ -139,7 +139,7 @@ def current_task_payload(db: Session, user_id: str) -> CurrentTaskOut:
             task=None,
             goal=None,
             progress_percent=0,
-            message="Create a goal to unlock the first tiny step.",
+            message="Создайте цель, чтобы открыть первую маленькую задачу.",
         )
         cache.set_json(f"current-task:{user_id}", payload.model_dump(), 20)
         return payload
@@ -154,7 +154,7 @@ def current_task_payload(db: Session, user_id: str) -> CurrentTaskOut:
             "total_tasks": total,
         },
         progress_percent=percent,
-        message="Only this step is visible. Finish it to reveal the next one.",
+        message="Виден только этот шаг. Завершите его, чтобы открыть следующий.",
     )
     cache.set_json(f"current-task:{user_id}", payload.model_dump(), 20)
     return payload
@@ -163,9 +163,9 @@ def current_task_payload(db: Session, user_id: str) -> CurrentTaskOut:
 def complete_task(db: Session, user: User, task_id: str) -> CompletionOut:
     task = db.get(MicroTask, task_id)
     if not task or task.user_id != user.id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Task not found")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Задача не найдена")
     if task.status not in {TaskStatus.current, TaskStatus.completed}:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Only the current visible task can be completed")
+        raise HTTPException(status.HTTP_409_CONFLICT, "Можно завершить только текущую видимую задачу")
 
     existing = db.scalar(
         select(TaskCompletion).where(
@@ -246,9 +246,9 @@ def complete_task(db: Session, user: User, task_id: str) -> CompletionOut:
 def skip_task(db: Session, user_id: str, task_id: str) -> CurrentTaskOut:
     task = db.get(MicroTask, task_id)
     if not task or task.user_id != user_id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Task not found")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Задача не найдена")
     if task.status != TaskStatus.current:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Only the current task can be skipped")
+        raise HTTPException(status.HTTP_409_CONFLICT, "Можно пропустить только текущую задачу")
     task.status = TaskStatus.skipped
     next_task = get_or_select_current_task(db, user_id, task.goal_id)
     task.goal.current_task_id = next_task.id if next_task else None
@@ -259,7 +259,7 @@ def skip_task(db: Session, user_id: str, task_id: str) -> CurrentTaskOut:
 def pause_task(db: Session, user_id: str, task_id: str) -> CurrentTaskOut:
     task = db.get(MicroTask, task_id)
     if not task or task.user_id != user_id:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Task not found")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Задача не найдена")
     if task.status == TaskStatus.current:
         task.status = TaskStatus.paused
         task.goal.status = GoalStatus.paused
@@ -268,7 +268,7 @@ def pause_task(db: Session, user_id: str, task_id: str) -> CurrentTaskOut:
         task=task_to_schema(task, task.goal.title),
         goal={"id": task.goal.id, "title": task.goal.title},
         progress_percent=goal_progress(db, task.goal_id)[2],
-        message="Session paused. Return when you are ready.",
+        message="Сессия приостановлена. Вернитесь, когда будете готовы.",
     )
 
 
@@ -300,7 +300,7 @@ def end_session(db: Session, user_id: str) -> SessionOut:
         .order_by(TaskSession.started_at.desc())
     )
     if not session:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "No active session")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Активная сессия не найдена")
     session.status = SessionStatus.ended
     session.ended_at = datetime.now(UTC)
     db.flush()

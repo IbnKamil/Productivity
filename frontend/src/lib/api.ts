@@ -4,7 +4,7 @@ import type {
   CompletionPayload,
   CurrentTaskPayload,
   Goal,
-  StatsSummary,
+  СтатистикаSummary,
   TokenPair,
   UserPublic
 } from "@/lib/types";
@@ -39,7 +39,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     error?: { message: string };
   };
   if (!response.ok || !payload.success) {
-    throw new ApiError(payload.error?.message ?? "Request failed", response.status, payload.request_id);
+    throw new ApiError(payload.error?.message ?? "Запрос не выполнен", response.status, payload.request_id);
   }
   return payload.data;
 }
@@ -80,7 +80,7 @@ export const api = {
     }),
   goals: () => request<Goal[]>("/goals"),
   goal: (id: string) => request<Goal & { completed_history: unknown[] }>(`/goals/${id}`),
-  stats: () => request<StatsSummary>("/stats/summary"),
+  stats: () => request<СтатистикаSummary>("/stats/summary"),
   settings: () =>
     request<{
       energy_mode: string;

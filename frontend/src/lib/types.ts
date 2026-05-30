@@ -65,7 +65,7 @@ export type CompletionPayload = {
   confirmation: string;
 };
 
-export type StatsSummary = {
+export type СтатистикаSummary = {
   completed_tasks: number;
   completed_goals: number;
   reward_points: number;

@@ -31,7 +31,7 @@ class CompletionOut(BaseModel):
     reward_points: int
     progress_percent: int
     next_task: MicroTaskOut | None
-    confirmation: str = "Step completed. Momentum increased."
+    confirmation: str = "Шаг завершён. Импульс усилен."
 
 
 class GenerateTasksOut(BaseModel):

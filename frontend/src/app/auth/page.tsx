@@ -38,11 +38,11 @@ export default function AuthPage() {
   return (
     <main className="mx-auto grid min-h-[70vh] max-w-md place-items-center px-6">
       <form onSubmit={submit} className="w-full rounded-3xl border border-white/10 bg-white/5 p-8 shadow-glow">
-        <h1 className="text-3xl font-bold">{mode === "login" ? "Welcome back" : "Create account"}</h1>
-        <p className="mt-2 text-slate-300">Sign in to reveal only your next micro-task.</p>
+        <h1 className="text-3xl font-bold">{mode === "login" ? "С возвращением" : "Создать аккаунт"}</h1>
+        <p className="mt-2 text-slate-300">Войдите, чтобы увидеть только следующую микро-задачу.</p>
         {mode === "register" ? (
           <label className="mt-6 block text-sm text-slate-300">
-            Display name
+            Имя
             <input name="display_name" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
           </label>
         ) : null}
@@ -51,7 +51,7 @@ export default function AuthPage() {
           <input required type="email" name="email" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
         </label>
         <label className="mt-4 block text-sm text-slate-300">
-          Password
+          Пароль
           <input
             required
             minLength={8}
@@ -62,14 +62,14 @@ export default function AuthPage() {
         </label>
         {mutation.error ? <p className="mt-4 text-sm text-red-300">{mutation.error.message}</p> : null}
         <button disabled={mutation.isPending} className="mt-7 w-full rounded-full bg-tunnel-focus px-6 py-3 font-bold">
-          {mutation.isPending ? "Please wait..." : mode === "login" ? "Log in" : "Register"}
+          {mutation.isPending ? "Подождите..." : mode === "login" ? "Войти" : "Зарегистрироваться"}
         </button>
         <button
           type="button"
           onClick={() => setMode(mode === "login" ? "register" : "login")}
           className="mt-4 w-full text-sm text-slate-300"
         >
-          {mode === "login" ? "Need an account?" : "Already have an account?"}
+          {mode === "login" ? "Нужен аккаунт?" : "Уже есть аккаунт?"}
         </button>
       </form>
     </main>

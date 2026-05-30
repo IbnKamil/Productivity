@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     sentry_dsn: str | None = None
     cors_origins: list[AnyHttpUrl | str] = ["http://localhost:3000"]
     rate_limit_enabled: bool = True
+    task_decomposer_mode: Literal["auto", "ai", "local"] = "auto"
+    openai_api_key: str | None = None
+    openai_base_url: str = "https://api.openai.com/v1"
+    openai_model: str = "gpt-4o-mini"
+    min_micro_tasks: int = Field(default=10, ge=1, le=150)
+    max_micro_tasks: int = Field(default=150, ge=10, le=150)
 
 
 @lru_cache

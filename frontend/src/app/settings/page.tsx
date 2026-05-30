@@ -40,45 +40,45 @@ export default function SettingsPage() {
     <AuthGate>
       <main className="mx-auto max-w-2xl px-6 py-10">
         <form onSubmit={submit} className="rounded-3xl border border-white/10 bg-white/5 p-8">
-          <h1 className="text-3xl font-bold">Settings</h1>
+          <h1 className="text-3xl font-bold">Настройки</h1>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <label className="text-sm text-slate-300">
-              Energy mode
+              Режим энергии
               <select name="energy_mode" defaultValue={data?.energy_mode ?? "normal"} className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3">
-                <option value="low">Low</option>
-                <option value="normal">Normal</option>
-                <option value="high">High</option>
+                <option value="low">Низкий</option>
+                <option value="normal">Обычный</option>
+                <option value="high">Высокий</option>
               </select>
             </label>
             <label className="text-sm text-slate-300">
-              Task density
+              Плотность задач
               <select name="task_density" defaultValue={data?.task_density ?? "balanced"} className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3">
-                <option value="light">Light</option>
-                <option value="balanced">Balanced</option>
-                <option value="dense">Dense</option>
+                <option value="light">Лёгкая</option>
+                <option value="balanced">Сбалансированная</option>
+                <option value="dense">Плотная</option>
               </select>
             </label>
             <label className="text-sm text-slate-300">
-              Theme
+              Тема
               <select name="theme" defaultValue={data?.theme ?? "system"} className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3">
-                <option value="system">System</option>
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
+                <option value="system">Системная</option>
+                <option value="dark">Тёмная</option>
+                <option value="light">Светлая</option>
               </select>
             </label>
           </div>
           <label className="mt-6 flex items-center gap-3 text-slate-300">
             <input name="notifications_enabled" type="checkbox" defaultChecked={data?.notifications_enabled ?? true} />
-            Notifications
+            Уведомления
           </label>
           <label className="mt-3 flex items-center gap-3 text-slate-300">
             <input name="sounds_enabled" type="checkbox" defaultChecked={data?.sounds_enabled ?? false} />
-            Completion sounds
+            Звуки завершения
           </label>
-          <button className="mt-7 rounded-full bg-tunnel-focus px-6 py-3 font-bold">Save settings</button>
+          <button className="mt-7 rounded-full bg-tunnel-focus px-6 py-3 font-bold">Сохранить настройки</button>
         </form>
         <button onClick={logout} className="mt-5 rounded-full border border-white/15 px-6 py-3 text-slate-300">
-          Log out
+          Выйти
         </button>
       </main>
     </AuthGate>

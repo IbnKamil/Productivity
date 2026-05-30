@@ -55,7 +55,7 @@ def register(
 ):
     existing = db.scalar(select(User).where(User.email == payload.email.lower()))
     if existing:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Email already registered")
+        raise HTTPException(status.HTTP_409_CONFLICT, "Этот email уже зарегистрирован")
     user = User(email=payload.email.lower(), password_hash=hash_password(payload.password))
     db.add(user)
     db.flush()
@@ -85,7 +85,7 @@ def login(
     if not user or not verify_password(payload.password, user.password_hash):
         record_audit(db, request, "auth.login_failed", None, {"email": payload.email.lower()})
         db.commit()
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid email or password")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Неверный email или пароль")
     tokens = _issue_tokens(db, user)
     record_event(db, "auth.login", user.id, {})
     record_audit(db, request, "auth.login", user.id)
@@ -98,16 +98,16 @@ def refresh(payload: RefreshRequest, request: Request, db: Session = Depends(get
     try:
         decoded = decode_token(payload.refresh_token)
     except jwt.PyJWTError as exc:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid refresh token") from exc
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Недействительный refresh-токен") from exc
     if decoded.get("typ") != "refresh":
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid token type")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Недействительный тип токена")
     token = db.scalar(select(RefreshToken).where(RefreshToken.token_id == decoded.get("jti")))
     if not token or token.revoked:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Refresh token revoked")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Refresh-токен отозван")
     assert_refresh_not_expired(token.expires_at)
     user = db.get(User, decoded.get("sub"))
     if not user or not user.is_active:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Inactive user")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Пользователь неактивен")
     token.revoked = True
     tokens = _issue_tokens(db, user)
     record_audit(db, request, "auth.refresh", user.id)
@@ -147,4 +147,4 @@ def reset_password(
     if user:
         record_event(db, "auth.reset_password_requested", user.id, {})
     db.commit()
-    return envelope(request, {"message": "If the account exists, reset instructions will be sent."})
+    return envelope(request, {"message": "Если аккаунт существует, инструкции по восстановлению будут отправлены."})

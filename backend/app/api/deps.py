@@ -18,16 +18,16 @@ def get_current_user(
     db: Session = Depends(get_db),
 ) -> User:
     if not credentials:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Missing bearer token")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Отсутствует bearer-токен")
     try:
         payload = decode_token(credentials.credentials)
     except jwt.PyJWTError as exc:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid token") from exc
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Недействительный токен") from exc
     if payload.get("typ") != "access":
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid token type")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Недействительный тип токена")
     user = db.get(User, payload.get("sub"))
     if not user or not user.is_active:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Inactive user")
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Пользователь неактивен")
     request.state.user = user
     return user
 

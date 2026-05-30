@@ -35,23 +35,23 @@ export default function NewGoalPage() {
     <AuthGate>
       <main className="mx-auto max-w-2xl px-6 py-10">
         <form onSubmit={submit} className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-glow">
-          <p className="text-sm uppercase tracking-[0.35em] text-tunnel-mint">New goal</p>
-          <h1 className="mt-3 text-3xl font-bold">Describe the outcome. We will reveal one step.</h1>
+          <p className="text-sm uppercase tracking-[0.35em] text-tunnel-mint">Новая цель</p>
+          <h1 className="mt-3 text-3xl font-bold">Опишите результат. Мы покажем только первый шаг.</h1>
           <label className="mt-7 block text-sm text-slate-300">
-            Title
+            Название
             <input required name="title" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
           </label>
           <label className="mt-4 block text-sm text-slate-300">
-            Description
+            Описание
             <textarea name="description" rows={4} className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
           </label>
           <label className="mt-4 block text-sm text-slate-300">
-            Execution context
+            Контекст выполнения
             <textarea name="context" rows={3} className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
           </label>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
             <label className="block text-sm text-slate-300">
-              Priority
+              Приоритет
               <select name="priority" defaultValue="3" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white">
                 {[1, 2, 3, 4, 5].map((value) => (
                   <option key={value}>{value}</option>
@@ -59,7 +59,7 @@ export default function NewGoalPage() {
               </select>
             </label>
             <label className="block text-sm text-slate-300">
-              Complexity
+              Сложность
               <select name="complexity" defaultValue="3" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white">
                 {[1, 2, 3, 4, 5].map((value) => (
                   <option key={value}>{value}</option>
@@ -67,13 +67,13 @@ export default function NewGoalPage() {
               </select>
             </label>
             <label className="block text-sm text-slate-300">
-              Due date
+              Срок
               <input type="date" name="due_date" className="mt-2 w-full rounded-2xl bg-slate-950 px-4 py-3 text-white" />
             </label>
           </div>
           {mutation.error ? <p className="mt-4 text-red-300">{mutation.error.message}</p> : null}
           <button disabled={mutation.isPending} className="mt-7 w-full rounded-full bg-tunnel-mint px-6 py-4 font-bold text-slate-950">
-            {mutation.isPending ? "Generating steps..." : "Create goal and show first step"}
+            {mutation.isPending ? "Генерируем шаги..." : "Создать цель и показать первый шаг"}
           </button>
         </form>
       </main>
