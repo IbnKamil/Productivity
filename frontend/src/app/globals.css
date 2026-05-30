@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-tunnel-bg: #070814;
+  --color-tunnel-panel: #111423;
+  --color-tunnel-focus: #8b5cf6;
+  --color-tunnel-mint: #34d399;
+  --shadow-glow: 0 0 80px rgba(139, 92, 246, 0.28);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgba(139, 92, 246, 0.28), transparent 32rem),
+    #070814;
+  color: #f8fafc;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
